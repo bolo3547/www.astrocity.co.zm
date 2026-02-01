@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Quote, Settings, Service } from '@prisma/client';
-import { Plus, Trash2, FileText, Send, Download, Calculator, Eye } from 'lucide-react';
+import { Plus, Trash2, FileText, Send, Download, Calculator, Eye, MessageCircle } from 'lucide-react';
 
 interface LineItem {
   id: string;
@@ -215,7 +215,7 @@ export function QuotationBuilder({ quote, settings, services }: QuotationBuilder
     }
   };
 
-  // Send quotation
+  // Send quotation via email
   const handleSend = async () => {
     if (!pdfGenerated) {
       setMessage({ type: 'error', text: 'Please generate the quotation first' });
@@ -243,6 +243,68 @@ export function QuotationBuilder({ quote, settings, services }: QuotationBuilder
     } finally {
       setIsSending(false);
     }
+  };
+
+  // Send quotation via WhatsApp
+  const handleWhatsAppSend = () => {
+    if (!pdfGenerated) {
+      setMessage({ type: 'error', text: 'Please generate the quotation first' });
+      return;
+    }
+
+    if (!quote.phone) {
+      setMessage({ type: 'error', text: 'Client phone number is required for WhatsApp' });
+      return;
+    }
+
+    // Format phone number (remove spaces, dashes, etc.)
+    let phoneNumber = quote.phone.replace(/[\s\-\(\)]/g, '');
+    // Add country code if not present (assume Zambia +260)
+    if (!phoneNumber.startsWith('+')) {
+      if (phoneNumber.startsWith('0')) {
+        phoneNumber = '+260' + phoneNumber.substring(1);
+      } else {
+        phoneNumber = '+260' + phoneNumber;
+      }
+    }
+
+    // Create public download URL for the PDF (no auth required)
+    const pdfUrl = `${window.location.origin}/api/public/quotes/${quote.id}/download`;
+    
+    // Format the WhatsApp message
+    const message = `Hello ${quote.name},
+
+Thank you for your interest in ${settings?.companyName || 'AstroCity'}.
+
+Please find below your quotation details:
+
+📋 *Quotation Number:* ${quotationNumber}
+💰 *Total Amount:* ${formatCurrency(totalAmount)}
+📅 *Valid Until:* ${quote.validUntil ? new Date(quote.validUntil).toLocaleDateString() : 'N/A'}
+
+${quote.service ? `🔧 *Service:* ${quote.service}` : ''}
+
+You can download your detailed quotation PDF here:
+${pdfUrl}
+
+Or track your quote status at:
+${window.location.origin}/track-quote
+
+If you have any questions, please don't hesitate to contact us.
+
+Best regards,
+${settings?.companyName || 'AstroCity'}
+${settings?.email || ''}
+${settings?.phones ? (typeof settings.phones === 'string' ? JSON.parse(settings.phones)[0] : settings.phones[0]) : ''}`;
+
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Open WhatsApp
+    const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+    
+    setMessage({ type: 'success', text: 'WhatsApp opened with quotation details' });
   };
 
   return (
@@ -537,7 +599,15 @@ export function QuotationBuilder({ quote, settings, services }: QuotationBuilder
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-500 text-white font-medium text-sm hover:bg-accent-600 transition-colors disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
-                  {isSending ? 'Sending...' : 'Send to Client'}
+                  {isSending ? 'Sending...' : 'Send via Email'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleWhatsAppSend}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500 text-white font-medium text-sm hover:bg-green-600 transition-colors"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Send via WhatsApp
                 </button>
               </>
             )}
