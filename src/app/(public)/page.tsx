@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { unstable_noStore as noStore } from 'next/cache';
 import {
   HeroSection,
   ServicesSection,
@@ -88,6 +89,7 @@ const demoProjects = [
 ];
 
 async function getPageData() {
+  noStore(); // Disable caching to always fetch fresh data
   try {
     const [settings, servicesRaw, projectsRaw, testimonialsRaw, clientLogosRaw, siteStats, teamMembersRaw] = await Promise.all([
       prisma.settings.findFirst(),

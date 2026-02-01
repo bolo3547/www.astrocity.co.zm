@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import { Calendar, User, ArrowRight, Clock } from 'lucide-react';
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 async function getBlogPosts() {
+  noStore(); // Disable caching to always fetch fresh data
   try {
     const posts = await prisma.blogPost.findMany({
       where: { isPublished: true },

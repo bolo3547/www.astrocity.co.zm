@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import { Icons } from '@/components/icons';
 import { ContactForm } from './contact-form';
 import prisma from '@/lib/prisma';
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 async function getData() {
+  noStore(); // Disable caching to always fetch fresh data
   try {
     const [settings, services] = await Promise.all([
       prisma.settings.findFirst(),

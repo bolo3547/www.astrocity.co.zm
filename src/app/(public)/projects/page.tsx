@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import { Icons } from '@/components/icons';
 import { formatDate } from '@/lib/utils';
 import prisma from '@/lib/prisma';
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 async function getProjects() {
+  noStore(); // Disable caching to always fetch fresh data
   try {
     const projects = await prisma.project.findMany({
       where: { isActive: true },

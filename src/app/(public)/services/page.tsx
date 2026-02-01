@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import Link from 'next/link';
 import { Icons } from '@/components/icons';
 import { getServiceIcon } from '@/components/icons';
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 };
 
 async function getServices() {
+  noStore(); // Disable caching to always fetch fresh data
   try {
     const services = await prisma.service.findMany({
       where: { isActive: true },

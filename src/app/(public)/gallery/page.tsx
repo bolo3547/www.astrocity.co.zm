@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { parseJsonArray } from '@/lib/json-helpers';
 import { GalleryGrid } from './gallery-grid';
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 async function getGalleryImages() {
+  noStore(); // Disable caching to always fetch fresh data
   try {
     const projects = await prisma.project.findMany({
       where: { isActive: true },

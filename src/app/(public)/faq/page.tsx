@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { FAQAccordion } from './faq-accordion';
 
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 async function getFAQs() {
+  noStore(); // Disable caching to always fetch fresh data
   try {
     const faqs = await prisma.fAQ.findMany({
       where: { isActive: true },
