@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 16 42 67;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-navy-900 antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-navy-900;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-navy-900 px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-navy-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border-2 border-navy-900 bg-transparent px-6 py-3 text-sm font-semibold text-navy-900 transition-all duration-200 hover:bg-navy-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-navy-500 focus:ring-offset-2;
+  }
+
+  .btn-whatsapp {
+    @apply inline-flex items-center justify-center rounded-lg bg-accent-500 px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2;
+  }
+
+  .input-field {
+    @apply w-full rounded-lg border border-gray-300 px-4 py-3 text-navy-900 placeholder-gray-400 transition-colors duration-200 focus:border-solar-500 focus:outline-none focus:ring-2 focus:ring-solar-500/20;
+  }
+
+  .card {
+    @apply rounded-xl bg-white p-6 shadow-sm border border-gray-100 transition-shadow duration-200 hover:shadow-md;
+  }
+
+  .heading-1 {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight;
+  }
+
+  .heading-2 {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight;
+  }
+
+  .heading-3 {
+    @apply text-2xl sm:text-3xl font-semibold leading-tight;
+  }
+
+  .heading-4 {
+    @apply text-xl sm:text-2xl font-semibold leading-tight;
+  }
+
+  .text-body {
+    @apply text-base sm:text-lg text-navy-600 leading-relaxed;
+  }
+
+  .text-body-sm {
+    @apply text-sm sm:text-base text-navy-600 leading-relaxed;
+  }
+
+  .link-nav {
+    @apply text-sm font-medium text-navy-700 transition-colors duration-200 hover:text-solar-600;
+  }
+
+  .link-footer {
+    @apply text-sm text-navy-400 transition-colors duration-200 hover:text-white;
+  }
+
+  /* Admin specific styles */
+  .admin-sidebar-link {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-navy-600 transition-colors duration-200 hover:bg-navy-50 hover:text-navy-900;
+  }
+
+  .admin-sidebar-link-active {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium bg-navy-100 text-navy-900;
+  }
+
+  .admin-card {
+    @apply rounded-xl bg-white p-6 shadow-sm border border-gray-200;
+  }
+
+  .admin-input {
+    @apply w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-navy-900 placeholder-gray-400 transition-colors duration-200 focus:border-solar-500 focus:outline-none focus:ring-2 focus:ring-solar-500/20;
+  }
+
+  .admin-label {
+    @apply block text-sm font-medium text-navy-700 mb-1.5;
+  }
+
+  .admin-btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-navy-900 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-navy-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .admin-btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-navy-700 transition-all duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-navy-500 focus:ring-offset-2;
+  }
+
+  .admin-btn-danger {
+    @apply inline-flex items-center justify-center rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+}

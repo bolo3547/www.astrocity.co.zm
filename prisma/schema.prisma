@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Settings {
+  id             String   @id @default(cuid())
+  companyName    String   @default("AstroCity")
+  tagline        String?
+  address        String?
+  phones         String   @default("[]") // JSON array stored as string
+  whatsapp       String?
+  email          String?
+  workingHours   String?
+  website        String?  @default("www.astrocity.co.zm")
+  logoUrl        String?
+  
+  // Email Configuration
+  smtpHost       String?
+  smtpPort       Int?     @default(587)
+  smtpUser       String?
+  smtpPass       String?
+  smtpFrom       String?
+  
+  // Quotation Settings
+  quotationPrefix    String   @default("QTN")
+  quotationCounter   Int      @default(1000)
+  quotationValidity  Int      @default(30)
+  defaultTaxRate     Float    @default(16)
+  defaultTerms       String?
+  currency           String   @default("ZMW")
+  
+  heroHeadline   String   @default("Reliable Solar Pumping & Borehole Drilling for Homes, Farms & Businesses")
+  heroSubheadline String  @default("Professional installation of solar water pumps, borehole drilling, tanks, and complete solar power systems—built for reliability and long-term performance.")
+  heroCta        String   @default("Request a Quote")
+  heroCtaSecondary String @default("WhatsApp Us")
+  aboutText      String?
+  metaTitle      String?
+  metaDescription String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  icon        String?
+  image       String?
+  features    String   @default("[]") // JSON array stored as string
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("services")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String?
+  location    String?
+  client      String?
+  images      String   @default("[]") // JSON array stored as string
+  services    String   @default("[]") // JSON array stored as string
+  completedAt DateTime?
+  isFeatured  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("projects")
+}
+
+model Quote {
+  id            String   @id @default(cuid())
+  referenceNo   String   @unique @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  company       String?
+  service       String?
+  location      String?
+  message       String
+  status        String   @default("new")
+  notes         String?
+  adminResponse String?
+  respondedAt   DateTime?
+  
+  // Quotation fields
+  quotationNumber  String?   @unique
+  quotationDate    DateTime?
+  validUntil       DateTime?
+  lineItems        String?   // JSON array stored as string
+  subtotal         Float?
+  tax              Float?
+  taxRate          Float?    @default(0)
+  discount         Float?    @default(0)
+  totalAmount      Float?
+  currency         String    @default("ZMW")
+  termsConditions  String?
+  quotationNotes   String?
+  pdfGenerated     Boolean   @default(false)
+  pdfSentAt        DateTime?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("quotes")
+}

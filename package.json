@@ -1,0 +1,45 @@
+{
+  "name": "astrocity",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.2.0",
+    "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.0",
+    "hyphen": "^1.14.1",
+    "jose": "^5.2.0",
+    "jspdf": "^4.0.0",
+    "lucide-react": "^0.469.0",
+    "next": "^15.1.0",
+    "nodemailer": "^7.0.13",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^2.2.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.10.0",
+    "@types/nodemailer": "^7.0.9",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.0",
+    "postcss": "^8.4.0",
+    "prisma": "^6.2.0",
+    "tailwindcss": "^3.4.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.7.0"
+  }
+}
