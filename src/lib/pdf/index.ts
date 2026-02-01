@@ -68,15 +68,15 @@ export async function generateQuotationPDF(data: QuotationData): Promise<Buffer>
   if (data.companyWebsite) {
     doc.saveGraphicsState();
     const watermarkText = data.companyWebsite.replace(/^https?:\/\//, '').replace(/\/$/, '');
-    doc.setFontSize(60);
-    doc.setTextColor(200, 200, 200);
+    doc.setFontSize(80);
+    doc.setTextColor(180, 180, 180);
     
     // Calculate center position
     const centerX = pageWidth / 2;
     const centerY = pageHeight / 2;
     
     // Set opacity using GState
-    const gState = doc.GState({ opacity: 0.08 });
+    const gState = doc.GState({ opacity: 0.15 });
     doc.setGState(gState);
     
     // Draw rotated text
