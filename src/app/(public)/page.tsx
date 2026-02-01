@@ -122,7 +122,7 @@ async function getPageData() {
 }
 
 export default async function HomePage() {
-  const { settings, services, projects } = await getPageData();
+  const { settings, services, projects, teamMembers } = await getPageData();
 
   return (
     <>
@@ -139,6 +139,62 @@ export default async function HomePage() {
       <WhyChooseUsSection />
       
       <ProjectsSection projects={projects} />
+
+      {/* Featured Team Preview */}
+      {teamMembers.length > 0 && (
+        <section className="py-16 md:py-24 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-navy-900 mb-4">
+                The Team Behind AstroCity
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+                Meet our experienced professionals dedicated to delivering reliable solar and water solutions.
+              </p>
+            </div>
+            <div className={`grid gap-8 ${
+              teamMembers.length === 1 ? 'max-w-md mx-auto' :
+              teamMembers.length === 2 ? 'md:grid-cols-2 max-w-2xl mx-auto' :
+              teamMembers.length === 3 ? 'md:grid-cols-3 max-w-4xl mx-auto' :
+              'md:grid-cols-2 lg:grid-cols-4'
+            }`}>
+              {teamMembers.map((member) => (
+                <div
+                  key={member.id}
+                  className="bg-white rounded-xl border border-gray-100 p-6 text-center hover:shadow-lg transition-shadow duration-300"
+                >
+                  {member.photo ? (
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-gray-100 mb-4"
+                    />
+                  ) : (
+                    <div className="w-28 h-28 rounded-full mx-auto bg-navy-100 flex items-center justify-center border-4 border-gray-100 mb-4">
+                      <span className="text-3xl font-bold text-navy-600">
+                        {member.name.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                  <h3 className="text-lg font-semibold text-navy-900 mb-1">{member.name}</h3>
+                  <p className="text-solar-600 font-medium text-sm">{member.role}</p>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-10">
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 text-solar-600 hover:text-solar-700 font-medium"
+              >
+                Meet the full team
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
       
       <CtaSection whatsapp={settings?.whatsapp || '+260971234567'} />
     </>
