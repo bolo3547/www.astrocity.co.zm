@@ -24,6 +24,7 @@ import {
   Cylinder,
   Search,
   FileText,
+  Inbox,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -54,6 +55,7 @@ export const Icons = {
   drill: CircleDot,
   search: Search,
   fileText: FileText,
+  inbox: Inbox,
 } as const;
 
 // Service-specific icons mapping

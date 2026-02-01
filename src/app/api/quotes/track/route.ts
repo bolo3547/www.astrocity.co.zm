@@ -29,6 +29,11 @@ export async function POST(request: NextRequest) {
         respondedAt: true,
         createdAt: true,
         updatedAt: true,
+        // Quotation details
+        quotationNumber: true,
+        totalAmount: true,
+        currency: true,
+        pdfSentAt: true,
       },
     });
 
