@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   HeroSection,
   ServicesSection,
@@ -85,7 +86,7 @@ const demoProjects = [
 
 async function getPageData() {
   try {
-    const [settings, servicesRaw, projectsRaw] = await Promise.all([
+    const [settings, servicesRaw, projectsRaw, teamMembersRaw] = await Promise.all([
       prisma.settings.findFirst(),
       prisma.service.findMany({
         where: { isActive: true },
@@ -95,6 +96,11 @@ async function getPageData() {
       prisma.project.findMany({
         where: { isActive: true, isFeatured: true },
         orderBy: { createdAt: 'desc' },
+        take: 4,
+      }),
+      prisma.teamMember.findMany({
+        where: { isActive: true, isFeatured: true },
+        orderBy: { order: 'asc' },
         take: 4,
       }),
     ]);
@@ -114,10 +120,11 @@ async function getPageData() {
       settings, 
       services: services.length > 0 ? services : demoServices,
       projects: projects.length > 0 ? projects : demoProjects,
+      teamMembers: teamMembersRaw,
     };
   } catch {
     // Return demo data when database is not available
-    return { settings: null, services: demoServices, projects: demoProjects };
+    return { settings: null, services: demoServices, projects: demoProjects, teamMembers: [] };
   }
 }
 
