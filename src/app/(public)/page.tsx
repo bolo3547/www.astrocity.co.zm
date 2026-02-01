@@ -5,6 +5,9 @@ import {
   WhyChooseUsSection,
   ProjectsSection,
   CtaSection,
+  TestimonialsSection,
+  StatsSection,
+  ClientLogosSection,
 } from '@/components/sections';
 import prisma from '@/lib/prisma';
 import { parseJsonArray } from '@/lib/json-helpers';
@@ -86,7 +89,7 @@ const demoProjects = [
 
 async function getPageData() {
   try {
-    const [settings, servicesRaw, projectsRaw, teamMembersRaw] = await Promise.all([
+    const [settings, servicesRaw, projectsRaw, testimonialsRaw, clientLogosRaw, siteStats, teamMembersRaw] = await Promise.all([
       prisma.settings.findFirst(),
       prisma.service.findMany({
         where: { isActive: true },
@@ -98,6 +101,17 @@ async function getPageData() {
         orderBy: { createdAt: 'desc' },
         take: 4,
       }),
+      prisma.testimonial.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+        take: 6,
+      }),
+      prisma.clientLogo.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+        take: 8,
+      }),
+      prisma.siteStats.findFirst(),
       prisma.teamMember.findMany({
         where: { isActive: true, isFeatured: true },
         orderBy: { order: 'asc' },
@@ -121,15 +135,26 @@ async function getPageData() {
       services: services.length > 0 ? services : demoServices,
       projects: projects.length > 0 ? projects : demoProjects,
       teamMembers: teamMembersRaw,
+      testimonials: testimonialsRaw || [],
+      clientLogos: clientLogosRaw || [],
+      siteStats: siteStats || { projectsCompleted: 500, yearsExperience: 10, happyCustomers: 1000, teamMembers: 25 },
     };
   } catch {
     // Return demo data when database is not available
-    return { settings: null, services: demoServices, projects: demoProjects, teamMembers: [] };
+    return { 
+      settings: null, 
+      services: demoServices, 
+      projects: demoProjects, 
+      teamMembers: [],
+      testimonials: [],
+      clientLogos: [],
+      siteStats: { projectsCompleted: 500, yearsExperience: 10, happyCustomers: 1000, teamMembers: 25 },
+    };
   }
 }
 
 export default async function HomePage() {
-  const { settings, services, projects, teamMembers } = await getPageData();
+  const { settings, services, projects, teamMembers, testimonials, clientLogos, siteStats } = await getPageData();
 
   return (
     <>
@@ -143,9 +168,15 @@ export default async function HomePage() {
       
       <ServicesSection services={services} />
       
+      <StatsSection stats={siteStats} />
+      
       <WhyChooseUsSection />
       
       <ProjectsSection projects={projects} />
+      
+      {testimonials.length > 0 && <TestimonialsSection testimonials={testimonials} />}
+      
+      {clientLogos.length > 0 && <ClientLogosSection logos={clientLogos} />}
 
       {/* Featured Team Preview */}
       {teamMembers.length > 0 && (

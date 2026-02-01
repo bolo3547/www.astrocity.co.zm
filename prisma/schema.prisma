@@ -129,3 +129,97 @@ model Quote {
 
   @@map("quotes")
 }
+
+model TeamMember {
+  id         String   @id @default(cuid())
+  name       String
+  role       String
+  bio        String?
+  photo      String?
+  email      String?
+  phone      String?
+  linkedin   String?
+  order      Int      @default(0)
+  isFeatured Boolean  @default(false)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("team_members")
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  company     String?
+  role        String?
+  content     String
+  rating      Int      @default(5)
+  photo       String?
+  projectType String?
+  location    String?
+  order       Int      @default(0)
+  isFeatured  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+model ClientLogo {
+  id        String   @id @default(cuid())
+  name      String
+  logoUrl   String
+  website   String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("client_logos")
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String
+  coverImage  String?
+  author      String?
+  category    String?
+  tags        String   @default("[]") // JSON array stored as string
+  isFeatured  Boolean  @default(false)
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("blog_posts")
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faqs")
+}
+
+model SiteStats {
+  id               String   @id @default(cuid())
+  projectsCompleted Int     @default(0)
+  yearsExperience   Int     @default(0)
+  happyCustomers    Int     @default(0)
+  teamMembers       Int     @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("site_stats")
+}

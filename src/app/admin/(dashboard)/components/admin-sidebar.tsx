@@ -14,14 +14,24 @@ import {
   Menu,
   X,
   Sun,
+  Users,
+  MessageSquare,
+  Building2,
+  Newspaper,
+  HelpCircle,
 } from 'lucide-react';
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { name: 'Settings', href: '/admin/settings', icon: Settings },
+  { name: 'Quotes', href: '/admin/quotes', icon: FileText },
   { name: 'Services', href: '/admin/services', icon: Briefcase },
   { name: 'Projects', href: '/admin/projects', icon: FolderOpen },
-  { name: 'Quotes', href: '/admin/quotes', icon: FileText },
+  { name: 'Team', href: '/admin/team', icon: Users },
+  { name: 'Testimonials', href: '/admin/testimonials', icon: MessageSquare },
+  { name: 'Client Logos', href: '/admin/client-logos', icon: Building2 },
+  { name: 'Blog', href: '/admin/blog', icon: Newspaper },
+  { name: 'FAQs', href: '/admin/faqs', icon: HelpCircle },
+  { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
 export function AdminSidebar() {

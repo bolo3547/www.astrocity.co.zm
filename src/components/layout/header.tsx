@@ -15,9 +15,11 @@ const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Services', href: '/services' },
   { name: 'Projects', href: '/projects' },
+  { name: 'Gallery', href: '/gallery' },
+  { name: 'Blog', href: '/blog' },
   { name: 'About', href: '/about' },
+  { name: 'FAQ', href: '/faq' },
   { name: 'Contact', href: '/contact' },
-  { name: 'Track Quote', href: '/track-quote' },
 ];
 
 export function Header({ companyName = 'AstroCity', whatsapp }: HeaderProps) {

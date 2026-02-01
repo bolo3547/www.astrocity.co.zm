@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'whatsapp' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'whatsapp' | 'ghost' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
 }
@@ -18,6 +18,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       secondary: 'border-2 border-navy-900 bg-transparent text-navy-900 hover:bg-navy-900 hover:text-white focus:ring-navy-500',
       whatsapp: 'bg-accent-500 text-white hover:bg-accent-600 focus:ring-accent-500',
       ghost: 'bg-transparent text-navy-700 hover:bg-navy-50 focus:ring-navy-500',
+      outline: 'border border-gray-300 bg-white text-navy-700 hover:bg-gray-50 focus:ring-navy-500',
     };
 
     const sizes = {

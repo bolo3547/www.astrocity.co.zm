@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
-import { FileText, Briefcase, FolderOpen, TrendingUp } from 'lucide-react';
+import { FileText, Briefcase, FolderOpen, TrendingUp, Users, MessageSquare, Newspaper, HelpCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard',
@@ -9,10 +9,23 @@ export const metadata: Metadata = {
 
 async function getStats() {
   try {
-    const [quotes, services, projects, recentQuotes] = await Promise.all([
+    const [
+      quotes,
+      services,
+      projects,
+      teamMembers,
+      testimonials,
+      blogPosts,
+      faqs,
+      recentQuotes,
+    ] = await Promise.all([
       prisma.quote.count(),
       prisma.service.count(),
       prisma.project.count(),
+      prisma.teamMember.count(),
+      prisma.testimonial.count(),
+      prisma.blogPost.count(),
+      prisma.fAQ.count(),
       prisma.quote.findMany({
         orderBy: { createdAt: 'desc' },
         take: 5,
@@ -23,9 +36,29 @@ async function getStats() {
       where: { status: 'new' },
     });
 
-    return { quotes, services, projects, newQuotes, recentQuotes };
+    return { 
+      quotes, 
+      services, 
+      projects, 
+      teamMembers,
+      testimonials,
+      blogPosts,
+      faqs,
+      newQuotes, 
+      recentQuotes 
+    };
   } catch {
-    return { quotes: 0, services: 0, projects: 0, newQuotes: 0, recentQuotes: [] };
+    return { 
+      quotes: 0, 
+      services: 0, 
+      projects: 0, 
+      teamMembers: 0,
+      testimonials: 0,
+      blogPosts: 0,
+      faqs: 0,
+      newQuotes: 0, 
+      recentQuotes: [] 
+    };
   }
 }
 
@@ -60,6 +93,34 @@ export default async function AdminDashboard() {
       icon: FolderOpen,
       href: '/admin/projects',
       color: 'bg-orange-500',
+    },
+    {
+      title: 'Team Members',
+      value: stats.teamMembers,
+      icon: Users,
+      href: '/admin/team',
+      color: 'bg-indigo-500',
+    },
+    {
+      title: 'Testimonials',
+      value: stats.testimonials,
+      icon: MessageSquare,
+      href: '/admin/testimonials',
+      color: 'bg-pink-500',
+    },
+    {
+      title: 'Blog Posts',
+      value: stats.blogPosts,
+      icon: Newspaper,
+      href: '/admin/blog',
+      color: 'bg-teal-500',
+    },
+    {
+      title: 'FAQs',
+      value: stats.faqs,
+      icon: HelpCircle,
+      href: '/admin/faqs',
+      color: 'bg-amber-500',
     },
   ];
 

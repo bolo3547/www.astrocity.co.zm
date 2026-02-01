@@ -1,4 +1,5 @@
 import { Header, Footer } from '@/components/layout';
+import { WhatsAppButton } from '@/components/ui';
 import prisma from '@/lib/prisma';
 import { parseJsonArray } from '@/lib/json-helpers';
 
@@ -34,6 +35,13 @@ export default async function PublicLayout({
         whatsapp={settings?.whatsapp || undefined}
         workingHours={settings?.workingHours || undefined}
       />
+      {/* Floating WhatsApp Button */}
+      {settings?.whatsapp && (
+        <WhatsAppButton 
+          phoneNumber={settings.whatsapp} 
+          message={`Hello ${settings.companyName}! I'm interested in your solar and water solutions.`}
+        />
+      )}
     </>
   );
 }
