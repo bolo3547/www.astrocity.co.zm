@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   title: 'AstroCity - Solar Water Pumps, Borehole Drilling & Solar Power Systems',
   description: 'Professional installation of solar water pumps, borehole drilling, water tanks, and complete solar power systems. Reliable solutions for homes, farms & businesses.',
   keywords: ['solar water pumps', 'borehole drilling', 'water tanks', 'solar power', 'solar panels', 'inverters'],
+  icons: {
+    icon: '/icon.svg',
+    apple: '/apple-icon.svg',
+  },
 };
 
 export default function RootLayout({
