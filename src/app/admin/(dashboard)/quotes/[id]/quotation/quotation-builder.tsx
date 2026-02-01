@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Quote, Settings, Service } from '@prisma/client';
-import { Plus, Trash2, FileText, Send, Download, Calculator } from 'lucide-react';
+import { Plus, Trash2, FileText, Send, Download, Calculator, Eye } from 'lucide-react';
 
 interface LineItem {
   id: string;
@@ -195,6 +195,23 @@ export function QuotationBuilder({ quote, settings, services }: QuotationBuilder
       URL.revokeObjectURL(url);
     } catch (err) {
       setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to download' });
+    }
+  };
+
+  // Preview PDF in new tab
+  const handlePreview = async () => {
+    try {
+      const response = await fetch(`/api/quotes/${quote.id}/download`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to load preview');
+      }
+      
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch (err) {
+      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to preview' });
     }
   };
 
@@ -497,6 +514,14 @@ export function QuotationBuilder({ quote, settings, services }: QuotationBuilder
           <div className="flex flex-wrap gap-3">
             {pdfGenerated && (
               <>
+                <button
+                  type="button"
+                  onClick={handlePreview}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-navy-100 text-navy-700 font-medium text-sm hover:bg-navy-200 transition-colors"
+                >
+                  <Eye className="w-4 h-4" />
+                  View PDF
+                </button>
                 <button
                   type="button"
                   onClick={handleDownload}

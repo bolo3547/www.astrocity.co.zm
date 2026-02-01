@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
-import { ArrowLeft, Mail, Phone, MapPin, Building, Calendar, FileText, Download, Send, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Mail, Phone, MapPin, Building, Calendar, FileText, Download, Send, CheckCircle, Eye } from 'lucide-react';
 import { QuoteStatusForm } from './quote-status-form';
 
 export const metadata: Metadata = {
@@ -87,13 +87,24 @@ export default async function QuoteDetailPage({
                   {quote.quotationNumber ? 'Edit Quotation' : 'Create Quotation'}
                 </Link>
                 {quote.quotationNumber && (
-                  <a
-                    href={`/api/quotes/${id}/download`}
-                    className="admin-btn-secondary flex items-center gap-2 text-sm"
-                  >
-                    <Download className="w-4 h-4" />
-                    Download PDF
-                  </a>
+                  <>
+                    <a
+                      href={`/api/quotes/${id}/download`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-navy-100 text-navy-700 font-medium text-sm hover:bg-navy-200 transition-colors"
+                    >
+                      <Eye className="w-4 h-4" />
+                      View PDF
+                    </a>
+                    <a
+                      href={`/api/quotes/${id}/download`}
+                      className="admin-btn-secondary flex items-center gap-2 text-sm"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download PDF
+                    </a>
+                  </>
                 )}
               </div>
             </div>
