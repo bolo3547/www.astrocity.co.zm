@@ -12,6 +12,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Check if Blob storage is configured
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      console.error('BLOB_READ_WRITE_TOKEN not configured');
+      return NextResponse.json(
+        { error: 'Image storage not configured. Please add BLOB_READ_WRITE_TOKEN in Vercel settings.' },
+        { status: 500 }
+      );
+    }
+
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
 
@@ -35,16 +44,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Generate unique filename
+    const timestamp = Date.now();
+    const ext = file.name.split('.').pop() || 'jpg';
+    const filename = `testimonials/${timestamp}-${Math.random().toString(36).substring(7)}.${ext}`;
+
     // Upload to Vercel Blob
-    const blob = await put(file.name, file, {
+    const blob = await put(filename, file, {
       access: 'public',
     });
 
     return NextResponse.json({ success: true, url: blob.url });
   } catch (error) {
     console.error('Upload error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to upload file';
     return NextResponse.json(
-      { error: 'Failed to upload file' },
+      { error: message },
       { status: 500 }
     );
   }

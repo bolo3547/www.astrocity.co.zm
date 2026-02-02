@@ -35,6 +35,7 @@ export default function TestimonialEditPage({ params }: { params: Promise<{ id: 
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isNew) {
@@ -70,6 +71,7 @@ export default function TestimonialEditPage({ params }: { params: Promise<{ id: 
     if (!file) return;
 
     setUploading(true);
+    setUploadError(null);
     const formData = new FormData();
     formData.append('file', file);
 
@@ -81,9 +83,12 @@ export default function TestimonialEditPage({ params }: { params: Promise<{ id: 
       const data = await res.json();
       if (data.url) {
         setForm({ ...form, photo: data.url });
+      } else if (data.error) {
+        setUploadError(data.error);
       }
     } catch (error) {
       console.error('Upload failed:', error);
+      setUploadError('Upload failed. Please try again.');
     } finally {
       setUploading(false);
     }
@@ -173,6 +178,12 @@ export default function TestimonialEditPage({ params }: { params: Promise<{ id: 
                 </Button>
               </label>
             </div>
+            {uploadError && (
+              <p className="mt-2 text-sm text-red-600">{uploadError}</p>
+            )}
+            <p className="mt-1 text-xs text-navy-500">
+              Accepted formats: JPG, PNG, WebP, GIF. Max size: 5MB
+            </p>
           </div>
 
           {/* Name */}
