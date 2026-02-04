@@ -21,6 +21,7 @@ const navigation = {
     { name: 'About Us', href: '/about' },
     { name: 'Our Projects', href: '/projects' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Privacy Policy', href: '/privacy-policy' },
   ],
 };
 
